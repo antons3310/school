@@ -52,11 +52,8 @@ public class FacultyController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable long id) {
-        Faculty facultyForDelete = facultyService.deleteFaculty(id);
-        if (facultyForDelete == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(facultyForDelete);
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.ok().build();
     }
 
 }
