@@ -37,7 +37,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Collection<Student> getStudensByAge(int age) {
-//        return studentRepository.findAll().stream().filter(student -> student.getAge() == age).collect(Collectors.toList());
         return studentRepository.findByAge(age);
     }
 }
