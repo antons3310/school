@@ -15,4 +15,6 @@ public interface StudentService {
     void deleteStudent(Long id);
 
     Collection<Student> getStudensByAge(int age);
+
+    Collection<Student> getStudensByAgeRange(int ageMin, int ageMax);
 }
