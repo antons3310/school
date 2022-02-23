@@ -32,13 +32,23 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Student>> getStudensByAge(@RequestParam("age") int age) {
+    @GetMapping(params = {"age"})
+    public ResponseEntity<Collection<Student>> getStudensByAge(@RequestParam(value = "age", required = false) int age) {
         Collection<Student> studensByAge = studentService.getStudensByAge(age);
         if (studensByAge.size() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(studensByAge);
+    }
+
+    @GetMapping(params = {"ageMin", "ageMax"})
+    public ResponseEntity<Collection<Student>> getStudensByAgeRange(@RequestParam(value = "ageMin", required = false) int ageMin,
+                                                                    @RequestParam(value = "ageMax", required = false) int ageMax) {
+        Collection<Student> studensByAgeRange = studentService.getStudensByAgeRange(ageMin, ageMax);
+        if (studensByAgeRange.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(studensByAgeRange);
     }
 
     @PutMapping
@@ -52,10 +62,7 @@ public class StudentController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Student> deleteFaculty(@PathVariable long id) {
-        Student studentForDelete = studentService.deleteStudent(id);
-        if (studentForDelete == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(studentForDelete);
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -32,13 +32,23 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Faculty>> getFacultyByColor(@RequestParam("color") String color) {
+    @GetMapping(params = {"color"})
+    public ResponseEntity<Collection<Faculty>> getFacultyByColor(@RequestParam(value = "color", required = false) String color) {
         Collection<Faculty> facultyByColor = facultyService.getFacultyByColor(color);
         if (facultyByColor.size() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(facultyByColor);
+    }
+
+    @GetMapping(params = {"color", "name"})
+    public ResponseEntity<Collection<Faculty>> getFacultyByColorOrName(@RequestParam(value = "color", required = false) String color,
+                                                                       @RequestParam(value = "name", required = false) String name) {
+        Collection<Faculty> facultyByColorOrName = facultyService.getFacultyByColorOrName(color, name);
+        if (facultyByColorOrName.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(facultyByColorOrName);
     }
 
     @PutMapping
@@ -52,11 +62,8 @@ public class FacultyController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable long id) {
-        Faculty facultyForDelete = facultyService.deleteFaculty(id);
-        if (facultyForDelete == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(facultyForDelete);
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.ok().build();
     }
 
 }
