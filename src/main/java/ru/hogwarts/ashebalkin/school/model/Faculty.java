@@ -1,5 +1,7 @@
 package ru.hogwarts.ashebalkin.school.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +16,7 @@ public class Faculty {
     private String name;
     private String color;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "faculty")
     private Collection<Student> student;
 
@@ -31,6 +34,18 @@ public class Faculty {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Collection<Student> getStudent() {
+        return student;
+    }
+
+    public void setStudent(Collection<Student> student) {
+        this.student = student;
     }
 
     public String getColor() {
