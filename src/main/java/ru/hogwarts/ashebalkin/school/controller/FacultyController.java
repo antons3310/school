@@ -41,7 +41,7 @@ public class FacultyController {
         return ResponseEntity.ok(facultyByColor);
     }
 
-    @GetMapping(params = {"name"})
+    @GetMapping(value = "params/", params = {"color", "name"})
     public ResponseEntity<Collection<Faculty>> getFacultyByColorOrName(@RequestParam(value = "color", required = false) String color,
                                                                        @RequestParam(value = "name", required = false) String name) {
         Collection<Faculty> facultyByColorOrName = facultyService.getFacultyByColorOrName(color, name);
