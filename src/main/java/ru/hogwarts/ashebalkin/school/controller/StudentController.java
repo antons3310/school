@@ -19,12 +19,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createFaculty(@RequestBody Student student) {
+    public Student createStudent(@RequestBody Student student) {
         return studentService.createStudent(student);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Student> getFaculty(@PathVariable long id) {
+    public ResponseEntity<Student> getStudent(@PathVariable long id) {
         Student student = studentService.getStudent(id);
         if (student == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -52,7 +52,7 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity<Student> updateFaculty(@RequestBody Student student) {
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
         Student studentForUpdate = studentService.updateStudent(student);
         if (studentForUpdate == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,7 +61,7 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteFaculty(@PathVariable long id) {
+    public ResponseEntity<Student> deleteStudent(@PathVariable long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }

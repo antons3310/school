@@ -60,7 +60,7 @@ public class Student {
         if (this == o) return true;
         if (!(o instanceof Student)) return false;
         Student student = (Student) o;
-        return getAge() == student.getAge() && getId().equals(student.getId()) && getName().equals(student.getName());
+        return getAge() == student.getAge() && getName().equals(student.getName());
     }
 
     @Override
@@ -70,10 +70,12 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
+        return "{" +
+                "\"id\":" + id +
+                ",\"name\":\"" + name + '\"' +
+                ",\"age\":" + age +
                 '}';
     }
+
 }
+
