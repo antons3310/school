@@ -1,5 +1,7 @@
 package ru.hogwarts.ashebalkin.school.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
@@ -18,6 +20,7 @@ public class Avatar {
     @Lob
     private byte[] data;
 
+    @JsonIgnore
     @OneToOne
     private Student student;
 
