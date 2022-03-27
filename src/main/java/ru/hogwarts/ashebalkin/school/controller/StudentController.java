@@ -85,4 +85,17 @@ public class StudentController {
         return ResponseEntity.ok(lastFiveStudents);
     }
 
+    @GetMapping("/getallstudenswithainname")
+    public ResponseEntity<Collection<String>> getAllStudentsWithAName() {
+        Collection<String> stringCollection = studentService.getAllStudentsWithAName();
+        if (stringCollection.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(stringCollection);
+    }
+
+    @GetMapping("/getallstudentsavgagewithstream")
+    public Double getAllStudentsAvgAgeWithStream() {
+        return studentService.getAllStudentsAvgAgeWithStream();
+    }
 }

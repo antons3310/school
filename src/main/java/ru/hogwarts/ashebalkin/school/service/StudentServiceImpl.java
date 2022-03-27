@@ -7,6 +7,8 @@ import ru.hogwarts.ashebalkin.school.model.Student;
 import ru.hogwarts.ashebalkin.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -74,6 +76,41 @@ public class StudentServiceImpl implements StudentService {
     public Collection<Student> getLastFiveStudents() {
         logger.info("Was invoked method - getLastFiveStudents");
         return studentRepository.getLastFiveStudents();
+    }
+
+    @Override
+    public Collection<String> getAllStudentsWithAName() {
+        logger.info("Was invoked method - getAllStudentsWithAName");
+
+        List<Student> studentList = studentRepository.findAll();
+
+        if (studentList.isEmpty()) {
+            logger.info("There are no Students in database");
+        }
+
+        List<String> stringList = studentList.stream()
+                .filter(student -> student.getName().charAt(0) == 'А')
+                .map(student -> student.getName().toUpperCase())
+                .collect(Collectors.toList());
+
+        if (stringList.isEmpty()) {
+            logger.warn("There are no Students in database with name witch starts with A letter");
+        }
+
+        return stringList.stream().sorted().collect(Collectors.toList());
+    }
+
+    @Override
+    public Double getAllStudentsAvgAgeWithStream() {
+        logger.info("Was invoked method - getAllStudentsAvgAgeWithStream");
+
+        List<Student> studentList = studentRepository.findAll();
+
+        if (studentList.isEmpty()) {
+            logger.warn("There are no Students in database");
+        }
+
+        return studentList.stream().mapToInt(Student::getAge).average().orElse(0);
     }
 
 }

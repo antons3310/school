@@ -16,4 +16,8 @@ public interface FacultyService {
     Collection<Faculty> getFacultyByColor(String color);
 
     Collection<Faculty> getFacultyByColorOrName(String color, String name);
+
+    String getLongestFacultyName();
+
+    Integer getIntegerValue();
 }

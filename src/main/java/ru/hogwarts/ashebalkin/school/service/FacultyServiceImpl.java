@@ -7,6 +7,10 @@ import ru.hogwarts.ashebalkin.school.model.Faculty;
 import ru.hogwarts.ashebalkin.school.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -56,6 +60,31 @@ public class FacultyServiceImpl implements FacultyService {
     public Collection<Faculty> getFacultyByColorOrName(String color, String name) {
         logger.info("Was invoked method - getFacultyByColorOrName");
         return facultyRepository.findByColorOrName(color, name);
+    }
+
+    @Override
+    public String getLongestFacultyName() {
+        logger.info("Was invoked method - getLongestFacultyName");
+
+        List<Faculty> facultyList = facultyRepository.findAll();
+
+        if (facultyList.isEmpty()) {
+            logger.warn("There are no Faculties in database");
+        }
+
+        return facultyList.stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(String::length))
+                .orElse(null);
+    }
+
+    @Override
+    public Integer getIntegerValue() {
+        List<Integer> integers = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .collect(Collectors.toList());
+
+        return integers.stream().parallel().mapToInt(Integer::intValue).sum();
     }
 
 }
