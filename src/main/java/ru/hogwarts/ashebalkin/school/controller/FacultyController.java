@@ -7,6 +7,7 @@ import ru.hogwarts.ashebalkin.school.model.Faculty;
 import ru.hogwarts.ashebalkin.school.service.FacultyService;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("faculty")
@@ -64,6 +65,20 @@ public class FacultyController {
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/getlongestfacultyname")
+    public ResponseEntity<Optional<String>> getLongestFacultyName() {
+        Optional<String> stringOptional = facultyService.getLongestFacultyName();
+        if (stringOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(stringOptional);
+    }
+
+    @GetMapping("/getIntegerValue")
+    public Integer getIntegerValue() {
+        return facultyService.getIntegerValue();
     }
 
 }
