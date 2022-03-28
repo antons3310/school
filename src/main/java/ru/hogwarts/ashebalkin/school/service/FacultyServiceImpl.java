@@ -9,6 +9,7 @@ import ru.hogwarts.ashebalkin.school.repository.FacultyRepository;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,19 +64,12 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public String getLongestFacultyName() {
+    public Optional<String> getLongestFacultyName() {
         logger.info("Was invoked method - getLongestFacultyName");
 
-        List<Faculty> facultyList = facultyRepository.findAll();
-
-        if (facultyList.isEmpty()) {
-            logger.warn("There are no Faculties in database");
-        }
-
-        return facultyList.stream()
+        return facultyRepository.findAll().stream()
                 .map(Faculty::getName)
-                .max(Comparator.comparing(String::length))
-                .orElse(null);
+                .max(Comparator.comparing(String::length));
     }
 
     @Override

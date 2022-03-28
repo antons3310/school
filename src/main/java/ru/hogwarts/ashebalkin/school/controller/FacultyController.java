@@ -7,6 +7,7 @@ import ru.hogwarts.ashebalkin.school.model.Faculty;
 import ru.hogwarts.ashebalkin.school.service.FacultyService;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("faculty")
@@ -67,8 +68,12 @@ public class FacultyController {
     }
 
     @GetMapping("/getlongestfacultyname")
-    public String getLongestFacultyName() {
-        return facultyService.getLongestFacultyName();
+    public ResponseEntity<Optional<String>> getLongestFacultyName() {
+        Optional<String> stringOptional = facultyService.getLongestFacultyName();
+        if (stringOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(stringOptional);
     }
 
     @GetMapping("/getIntegerValue")

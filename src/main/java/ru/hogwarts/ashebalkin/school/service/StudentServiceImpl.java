@@ -82,13 +82,7 @@ public class StudentServiceImpl implements StudentService {
     public Collection<String> getAllStudentsWithAName() {
         logger.info("Was invoked method - getAllStudentsWithAName");
 
-        List<Student> studentList = studentRepository.findAll();
-
-        if (studentList.isEmpty()) {
-            logger.info("There are no Students in database");
-        }
-
-        List<String> stringList = studentList.stream()
+        List<String> stringList = studentRepository.findAll().stream()
                 .filter(student -> student.getName().charAt(0) == 'А')
                 .map(student -> student.getName().toUpperCase())
                 .collect(Collectors.toList());
