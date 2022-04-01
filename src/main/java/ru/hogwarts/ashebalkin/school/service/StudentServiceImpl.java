@@ -107,4 +107,57 @@ public class StudentServiceImpl implements StudentService {
         return studentList.stream().mapToInt(Student::getAge).average().orElse(0);
     }
 
+    @Override
+    public void getStudentsStream() {
+
+        List<Student> studentList = studentRepository.findAll();
+
+        for (long i = 1L; i < studentList.size() / 3; i++) {
+            System.out.println(studentRepository.findById(i).get().getName());
+        }
+
+        new Thread(() -> {
+            for (long i = (long) (studentList.size() / 3); i < 2 * (studentList.size() / 3); i++) {
+                System.out.println(studentRepository.findById(i).get().getName());
+                System.out.println("1");
+            }
+
+        }).start();
+
+        new Thread(() -> {
+            for (long i = (long) 2 * (studentList.size() / 3); i <= studentList.size(); i++) {
+                System.out.println(studentRepository.findById(i).get().getName());
+                System.out.println("2");
+            }
+        }).start();
+    }
+
+    @Override
+    public void getStudentsStreamSynchronized() {
+        List<Student> studentList = studentRepository.findAll();
+
+        for (long i = 1L; i < studentList.size() / 3; i++) {
+            getStudentName(i);
+            System.out.println("1");
+        }
+
+        new Thread(() -> {
+            for (long i = (long) (studentList.size() / 3); i < 2 * (studentList.size() / 3); i++) {
+                getStudentName(i);
+                System.out.println("2");
+            }
+
+        }).start();
+
+        new Thread(() -> {
+            for (long i = (long) 2 * (studentList.size() / 3); i <= studentList.size(); i++) {
+                getStudentName(i);
+            }
+        }).start();
+    }
+
+    private synchronized void getStudentName(Long index) {
+        System.out.println(studentRepository.findById(index).get().getName());
+    }
+
 }
